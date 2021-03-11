@@ -368,7 +368,7 @@ impl WashRepl {
                             ReplCliCommand::Claims(claimscmd) => {
                                 let output_state = Arc::clone(&self.output_state);
                                 std::thread::spawn(|| {
-                                    let mut rt = actix_rt::System::new("cmd");
+                                    let rt = actix_rt::System::new(); // "cmd"
                                     rt.block_on(async {
                                         match handle_claims(claimscmd, output_state).await {
                                             Ok(r) => r,
@@ -380,7 +380,7 @@ impl WashRepl {
                             ReplCliCommand::Ctl(ctlcmd) => {
                                 let output_state = Arc::clone(&self.output_state);
                                 std::thread::spawn(|| {
-                                    let mut rt = actix_rt::System::new("cmd");
+                                    let rt = actix_rt::System::new(); // "cmd"
                                     rt.block_on(async {
                                         match handle_ctl(ctlcmd, output_state).await {
                                             Ok(r) => r,
@@ -392,7 +392,7 @@ impl WashRepl {
                             ReplCliCommand::Keys(keyscmd) => {
                                 let output_state = Arc::clone(&self.output_state);
                                 std::thread::spawn(|| {
-                                    let mut rt = actix_rt::System::new("cmd");
+                                    let rt = actix_rt::System::new(); // "cmd"
                                     rt.block_on(async {
                                         match handle_keys(keyscmd, output_state).await {
                                             Ok(r) => r,
@@ -404,7 +404,7 @@ impl WashRepl {
                             ReplCliCommand::Par(parcmd) => {
                                 let output_state = Arc::clone(&self.output_state);
                                 std::thread::spawn(|| {
-                                    let mut rt = actix_rt::System::new("cmd");
+                                    let rt = actix_rt::System::new(); // "cmd"
                                     rt.block_on(async {
                                         match handle_par(parcmd, output_state).await {
                                             Ok(r) => r,
@@ -416,7 +416,7 @@ impl WashRepl {
                             ReplCliCommand::Reg(regcmd) => {
                                 let output_state = Arc::clone(&self.output_state);
                                 std::thread::spawn(|| {
-                                    let mut rt = actix_rt::System::new("cmd");
+                                    let rt = actix_rt::System::new(); // "cmd"
                                     rt.block_on(async {
                                         match handle_reg(regcmd, output_state).await {
                                             Ok(r) => r,
@@ -549,7 +549,7 @@ async fn handle_up(cmd: UpCliCommand) -> Result<()> {
 
     // Launch host in separate thread to avoid blocking host operations
     std::thread::spawn(move || {
-        let mut rt = actix_rt::System::new("replhost");
+        let rt = actix_rt::System::new(); // "replhost"
         rt.block_on(async move {
             let nc_rpc =
                 match nats::asynk::connect(&format!("{}:{}", cmd.rpc_host, cmd.rpc_port)).await {
